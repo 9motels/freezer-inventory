@@ -2,259 +2,293 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Freezer Inventory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --blue-50: #eff6ff;
+      --blue-100: #dbeafe;
+      --blue-500: #3b82f6;
+      --blue-600: #2563eb;
+      --blue-700: #1d4ed8;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --green-500: #22c55e;
+      --green-600: #16a34a;
+      --red-400: #f87171;
+      --red-500: #ef4444;
+      --red-600: #dc2626;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f0f4f8;
-      color: #1a202c;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-900);
       min-height: 100vh;
+      min-height: 100dvh;
+      -webkit-font-smoothing: antialiased;
     }
 
+    /* ── Header ── */
     header {
-      background: linear-gradient(135deg, #2b6cb0, #4299e1);
+      background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
       color: white;
       padding: 1.25rem 1.5rem;
       text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-md);
     }
 
     header h1 {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 700;
       letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
     }
 
+    header h1 .icon { font-size: 1.4rem; }
+
     header p {
-      font-size: 0.85rem;
-      opacity: 0.85;
-      margin-top: 0.25rem;
+      font-size: 0.8rem;
+      opacity: 0.8;
+      margin-top: 0.2rem;
+      font-weight: 500;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 640px;
       margin: 0 auto;
       padding: 1rem;
+      padding-bottom: calc(1rem + var(--safe-bottom));
     }
 
-    /* Add Item Form */
-    .add-form {
+    /* ── Card base ── */
+    .card {
       background: white;
-      border-radius: 12px;
-      padding: 1.25rem;
-      margin-bottom: 1.25rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    /* ── Add Item Form ── */
+    .add-form {
+      margin-bottom: 1rem;
+      padding: 1rem 1rem 1.15rem;
     }
 
     .add-form h2 {
-      font-size: 1rem;
-      margin-bottom: 0.75rem;
-      color: #2b6cb0;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .form-row input[type="text"] {
-      flex: 1;
-      min-width: 160px;
-      padding: 0.6rem 0.75rem;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      transition: border-color 0.2s;
-    }
-
-    .form-row input[type="text"]:focus {
-      outline: none;
-      border-color: #4299e1;
-    }
-
-    .form-row input[type="number"] {
-      width: 70px;
-      padding: 0.6rem 0.5rem;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      text-align: center;
-    }
-
-    .form-row input[type="number"]:focus {
-      outline: none;
-      border-color: #4299e1;
-    }
-
-    .form-row select {
-      padding: 0.6rem 0.75rem;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      background: white;
-      min-width: 180px;
-    }
-
-    .form-row select:focus {
-      outline: none;
-      border-color: #4299e1;
-    }
-
-    .btn {
-      padding: 0.6rem 1.25rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 0.95rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--gray-500);
+      margin-bottom: 0.75rem;
     }
 
-    .btn:active { transform: scale(0.97); }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+
+    .form-grid input,
+    .form-grid select {
+      width: 100%;
+      padding: 0.7rem 0.85rem;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-family: inherit;
+      color: var(--gray-800);
+      background: var(--gray-50);
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .form-grid select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 6l3.5 3.5L11.5 6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      padding-right: 2.25rem;
+    }
+
+    .form-grid input:focus,
+    .form-grid select:focus {
+      outline: none;
+      border-color: var(--blue-500);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    }
+
+    .form-grid input::placeholder {
+      color: var(--gray-400);
+    }
+
+    .form-bottom-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+    }
 
     .btn-add {
-      background: #48bb78;
-      color: white;
-    }
-
-    .btn-add:hover { background: #38a169; }
-
-    .btn-minus {
-      background: #fc8181;
-      color: white;
-      width: 32px;
-      height: 32px;
-      padding: 0;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
-      border-radius: 6px;
-    }
-
-    .btn-minus:hover { background: #f56565; }
-
-    .btn-plus {
-      background: #68d391;
+      gap: 0.4rem;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--green-500);
       color: white;
-      width: 32px;
-      height: 32px;
-      padding: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      border-radius: 6px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .btn-plus:hover { background: #48bb78; }
+    .btn-add:hover { background: var(--green-600); }
+    .btn-add:active { transform: scale(0.97); }
 
-    .btn-delete {
-      background: #e53e3e;
-      color: white;
-      width: 32px;
-      height: 32px;
-      padding: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      border-radius: 6px;
+    /* ── Tabs ── */
+    .tabs-wrapper {
+      margin-bottom: 1rem;
+      overflow: hidden;
     }
 
-    .btn-delete:hover { background: #c53030; }
-
-    /* Freezer Tabs */
     .tabs {
       display: flex;
-      gap: 0.35rem;
+      gap: 0.4rem;
       overflow-x: auto;
-      padding-bottom: 0.5rem;
-      margin-bottom: 1rem;
+      padding: 0.25rem 0;
+      scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
     }
 
+    .tabs::-webkit-scrollbar { display: none; }
+
     .tab {
-      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.55rem 0.9rem;
       background: white;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 0.85rem;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 100px;
+      font-size: 0.82rem;
       font-weight: 600;
+      font-family: inherit;
+      color: var(--gray-600);
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.2s;
-      position: relative;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
     }
 
-    .tab:hover { border-color: #4299e1; }
+    .tab:hover { border-color: var(--blue-500); color: var(--blue-600); }
 
     .tab.active {
-      background: #4299e1;
+      background: var(--blue-600);
       color: white;
-      border-color: #4299e1;
+      border-color: var(--blue-600);
+      box-shadow: 0 2px 8px rgba(37,99,235,0.3);
     }
 
-    .tab .tab-count {
-      display: inline-block;
-      background: rgba(0,0,0,0.15);
-      border-radius: 10px;
-      padding: 0.1rem 0.45rem;
-      font-size: 0.75rem;
-      margin-left: 0.35rem;
+    .tab-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.35rem;
+      height: 1.35rem;
+      padding: 0 0.35rem;
+      background: var(--gray-100);
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--gray-500);
     }
 
     .tab.active .tab-count {
       background: rgba(255,255,255,0.25);
+      color: white;
     }
 
-    /* Items List */
-    .freezer-content {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-      overflow: hidden;
-    }
-
+    /* ── Freezer Content ── */
     .freezer-header {
-      padding: 1rem 1.25rem;
-      border-bottom: 1px solid #e2e8f0;
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--gray-100);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .freezer-header h2 {
-      font-size: 1.1rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gray-800);
     }
 
-    .freezer-header .item-total {
-      font-size: 0.85rem;
-      color: #718096;
+    .item-total {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--gray-400);
     }
 
     .search-bar {
-      padding: 0.75rem 1.25rem;
-      border-bottom: 1px solid #e2e8f0;
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--gray-100);
     }
 
     .search-bar input {
       width: 100%;
-      padding: 0.5rem 0.75rem;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
+      padding: 0.6rem 0.85rem 0.6rem 2.25rem;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
       font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--gray-800);
+      background: var(--gray-50) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.414-1.414l-3.85-3.85zm-5.242.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z'/%3E%3C/svg%3E") no-repeat 0.75rem center;
+      transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
     }
 
     .search-bar input:focus {
       outline: none;
-      border-color: #4299e1;
+      border-color: var(--blue-500);
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
     }
 
+    .search-bar input::placeholder { color: var(--gray-400); }
+
+    /* ── Items List ── */
     .items-list {
       list-style: none;
     }
@@ -262,66 +296,140 @@
     .items-list li {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0.75rem 1.25rem;
-      border-bottom: 1px solid #f7fafc;
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--gray-100);
       transition: background 0.15s;
+      gap: 0.5rem;
     }
 
-    .items-list li:hover {
-      background: #f7fafc;
-    }
+    .items-list li:last-child { border-bottom: none; }
+    .items-list li:active { background: var(--gray-50); }
 
-    .items-list li:last-child {
-      border-bottom: none;
+    .item-info {
+      flex: 1;
+      min-width: 0;
     }
 
     .item-name {
-      flex: 1;
       font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--gray-800);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+
+    .freezer-label {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--blue-600);
+      background: var(--blue-50);
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+      margin-top: 0.2rem;
+      white-space: nowrap;
+    }
+
+    .item-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.15rem;
+      flex-shrink: 0;
+    }
+
+    .ctrl-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1.1rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      -webkit-tap-highlight-color: transparent;
+      color: white;
+    }
+
+    .ctrl-btn:active { transform: scale(0.92); }
+
+    .ctrl-minus {
+      background: var(--red-400);
+    }
+    .ctrl-minus:hover { background: var(--red-500); }
+
+    .ctrl-plus {
+      background: var(--green-500);
+    }
+    .ctrl-plus:hover { background: var(--green-600); }
+
+    .ctrl-delete {
+      background: transparent;
+      color: var(--gray-300);
+      font-size: 0.85rem;
+      width: 32px;
+      height: 32px;
+    }
+    .ctrl-delete:hover { color: var(--red-500); background: var(--red-400); background: rgba(239,68,68,0.1); }
 
     .item-qty {
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 700;
-      min-width: 32px;
+      min-width: 28px;
       text-align: center;
-      margin: 0 0.5rem;
-      color: #2b6cb0;
+      color: var(--blue-600);
+      font-variant-numeric: tabular-nums;
     }
 
-    .item-actions {
-      display: flex;
-      gap: 0.3rem;
-      align-items: center;
-    }
-
+    /* ── Empty State ── */
     .empty-state {
       text-align: center;
-      padding: 3rem 1rem;
-      color: #a0aec0;
+      padding: 3rem 1.5rem;
+      color: var(--gray-400);
     }
 
     .empty-state .icon {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
+      font-size: 3rem;
+      margin-bottom: 0.75rem;
+      opacity: 0.5;
     }
 
-    /* Toast notification */
+    .empty-state p {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .empty-state .hint {
+      font-size: 0.8rem;
+      margin-top: 0.35rem;
+      color: var(--gray-300);
+    }
+
+    /* ── Toast ── */
     .toast {
       position: fixed;
-      bottom: 1.5rem;
+      bottom: calc(1.5rem + var(--safe-bottom));
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: #2d3748;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--gray-800);
       color: white;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
+      padding: 0.7rem 1.25rem;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 500;
       opacity: 0;
-      transition: all 0.3s ease;
+      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
       z-index: 100;
       pointer-events: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      white-space: nowrap;
+      max-width: 90vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .toast.show {
@@ -329,49 +437,64 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* All Items view */
-    .freezer-label {
-      font-size: 0.75rem;
-      color: #718096;
-      background: #edf2f7;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      margin-right: 0.5rem;
-      white-space: nowrap;
+    /* ── Responsive ── */
+    @media (min-width: 480px) {
+      .form-grid {
+        grid-template-columns: 1fr auto;
+      }
+      .form-bottom-row {
+        grid-template-columns: 1fr 80px 1fr;
+      }
+      .form-name-row {
+        grid-column: 1 / -1;
+      }
     }
 
-    @media (max-width: 600px) {
-      .form-row { flex-direction: column; }
-      .form-row select, .form-row input[type="text"] { min-width: 100%; }
-      .form-row input[type="number"] { width: 100%; }
-      .tab { font-size: 0.8rem; padding: 0.45rem 0.75rem; }
+    @media (max-width: 479px) {
+      .container { padding: 0.75rem; }
+      header { padding: 1rem; }
+      header h1 { font-size: 1.15rem; }
+    }
+
+    /* Subtle animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .items-list li {
+      animation: fadeIn 0.2s ease;
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>Freezer Inventory</h1>
+  <h1><span class="icon">&#10052;</span> Freezer Inventory</h1>
   <p id="totalSummary"></p>
 </header>
 
 <div class="container">
   <!-- Add Item Form -->
-  <div class="add-form">
+  <div class="card add-form">
     <h2>Add Item</h2>
-    <div class="form-row">
-      <input type="text" id="itemName" placeholder="Item name (e.g. Chicken Breast)" autocomplete="off">
-      <input type="number" id="itemQty" value="1" min="1" max="999">
-      <select id="itemFreezer"></select>
-      <button class="btn btn-add" onclick="addItem()">Add</button>
+    <div class="form-grid">
+      <input class="form-name-row" type="text" id="itemName" placeholder="Item name (e.g. Chicken Breast)" autocomplete="off">
+      <div class="form-bottom-row" style="grid-column: 1 / -1;">
+        <select id="itemFreezer"></select>
+        <input type="number" id="itemQty" value="1" min="1" max="999" style="text-align:center;">
+        <button class="btn-add" onclick="addItem()">+ Add</button>
+      </div>
     </div>
   </div>
 
   <!-- Tabs -->
-  <div class="tabs" id="tabs"></div>
+  <div class="tabs-wrapper">
+    <div class="tabs" id="tabs"></div>
+  </div>
 
   <!-- Content -->
-  <div class="freezer-content">
+  <div class="card">
     <div class="freezer-header">
       <h2 id="freezerTitle">All Freezers</h2>
       <span class="item-total" id="freezerTotal"></span>
@@ -410,7 +533,6 @@
     localStorage.setItem('freezerInventory', JSON.stringify(inventory));
   }
 
-  // Build a key for each item: freezer + normalized name
   function itemKey(freezer, name) {
     return freezer + '||' + name.trim().toLowerCase();
   }
@@ -426,6 +548,8 @@
 
     if (!name) {
       nameInput.focus();
+      nameInput.style.borderColor = 'var(--red-400)';
+      setTimeout(() => nameInput.style.borderColor = '', 1500);
       return;
     }
 
@@ -448,7 +572,6 @@
     qtyInput.value = '1';
     nameInput.focus();
 
-    // Switch to the freezer we just added to
     activeTab = freezer;
     render();
   }
@@ -487,7 +610,7 @@
     toast.textContent = msg;
     toast.classList.add('show');
     clearTimeout(toast._timeout);
-    toast._timeout = setTimeout(() => toast.classList.remove('show'), 2000);
+    toast._timeout = setTimeout(() => toast.classList.remove('show'), 2200);
   }
 
   function getItemsForFreezer(freezer) {
@@ -500,25 +623,20 @@
     return getItemsForFreezer(freezer).reduce((sum, [_, item]) => sum + item.qty, 0);
   }
 
-  function getUniqueItems(freezer) {
-    return getItemsForFreezer(freezer).length;
-  }
-
   function renderTabs() {
     const tabsEl = document.getElementById('tabs');
     let html = '';
 
-    // All tab
     const allTotal = Object.values(inventory).reduce((s, i) => s + i.qty, 0);
-    html += `<div class="tab ${activeTab === 'all' ? 'active' : ''}" onclick="switchTab('all')">
-      All<span class="tab-count">${allTotal}</span>
-    </div>`;
+    html += `<button class="tab ${activeTab === 'all' ? 'active' : ''}" onclick="switchTab('all')">
+      All <span class="tab-count">${allTotal}</span>
+    </button>`;
 
     FREEZERS.forEach(f => {
       const total = getTotalItems(f);
-      html += `<div class="tab ${activeTab === f ? 'active' : ''}" onclick="switchTab('${f}')">
-        ${f}<span class="tab-count">${total}</span>
-      </div>`;
+      html += `<button class="tab ${activeTab === f ? 'active' : ''}" onclick="switchTab('${f}')">
+        ${f} <span class="tab-count">${total}</span>
+      </button>`;
     });
 
     tabsEl.innerHTML = html;
@@ -538,31 +656,31 @@
       items = items.filter(([_, item]) => item.name.toLowerCase().includes(search));
     }
 
-    // Sort alphabetically
     items.sort((a, b) => a[1].name.localeCompare(b[1].name));
 
     const totalQty = items.reduce((s, [_, i]) => s + i.qty, 0);
-    totalEl.textContent = `${items.length} item${items.length !== 1 ? 's' : ''}, ${totalQty} total`;
+    totalEl.textContent = `${items.length} item${items.length !== 1 ? 's' : ''} · ${totalQty} total`;
 
     if (items.length === 0) {
       listEl.innerHTML = `<div class="empty-state">
         <div class="icon">&#10052;</div>
-        <p>${search ? 'No matching items found' : 'No items in this freezer yet'}</p>
+        <p>${search ? 'No matching items' : 'Nothing in this freezer yet'}</p>
+        <p class="hint">${search ? 'Try a different search' : 'Add items above to get started'}</p>
       </div>`;
       return;
     }
 
     listEl.innerHTML = items.map(([key, item]) => `
       <li>
-        <span class="item-name">
-          ${activeTab === 'all' ? `<span class="freezer-label">${item.freezer}</span>` : ''}
-          ${escapeHtml(item.name)}
-        </span>
-        <div class="item-actions">
-          <button class="btn btn-minus" onclick="adjustQty('${escapeAttr(key)}', -1)" title="Remove one">-</button>
+        <div class="item-info">
+          <div class="item-name">${escapeHtml(item.name)}</div>
+          ${activeTab === 'all' ? `<span class="freezer-label">${escapeHtml(item.freezer)}</span>` : ''}
+        </div>
+        <div class="item-controls">
+          <button class="ctrl-btn ctrl-minus" onclick="adjustQty('${escapeAttr(key)}', -1)" aria-label="Remove one">&minus;</button>
           <span class="item-qty">${item.qty}</span>
-          <button class="btn btn-plus" onclick="adjustQty('${escapeAttr(key)}', 1)" title="Add one">+</button>
-          <button class="btn btn-delete" onclick="deleteItem('${escapeAttr(key)}')" title="Remove all">&#x2715;</button>
+          <button class="ctrl-btn ctrl-plus" onclick="adjustQty('${escapeAttr(key)}', 1)" aria-label="Add one">+</button>
+          <button class="ctrl-btn ctrl-delete" onclick="deleteItem('${escapeAttr(key)}')" aria-label="Delete item">&#x2715;</button>
         </div>
       </li>
     `).join('');
@@ -576,7 +694,6 @@
 
   function updateSummary() {
     const total = Object.values(inventory).reduce((s, i) => s + i.qty, 0);
-    const unique = Object.keys(inventory).length;
     document.getElementById('totalSummary').textContent =
       `${total} total items across ${FREEZERS.length} freezers`;
   }
@@ -585,6 +702,12 @@
     activeTab = tab;
     document.getElementById('searchInput').value = '';
     render();
+
+    // Scroll active tab into view
+    requestAnimationFrame(() => {
+      const activeEl = document.querySelector('.tab.active');
+      if (activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    });
   }
 
   function escapeHtml(str) {
@@ -594,10 +717,9 @@
   }
 
   function escapeAttr(str) {
-    return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
   }
 
-  // Populate freezer dropdown
   function initFreezerSelect() {
     const sel = document.getElementById('itemFreezer');
     FREEZERS.forEach(f => {
